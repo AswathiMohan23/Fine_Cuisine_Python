@@ -22,7 +22,7 @@ from rest_framework_simplejwt import views as jwt_views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('user/', include('user_app.urls')),
-    path('menu/', include('cuisine_app.urls')),
+    path('cuisine/', include('cuisine_app.urls')),
     path('api/token/',
          jwt_views.TokenObtainPairView.as_view(),
          name='token_obtain_pair'),

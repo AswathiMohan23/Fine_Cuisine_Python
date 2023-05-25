@@ -37,6 +37,3 @@ class ItemSerializer(serializers.ModelSerializer):
                                               menu_id=self.initial_data.get('menu'))
         return items
 
- # else:
- #            items = ItemsModel.objects.update(dish_name=dish, price=self.initial_data.get('price'),
- #                                          menu_id=self.initial_data.get('menu'))

@@ -5,7 +5,7 @@ from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from cuisine_app.models import MenuModel
+from cuisine_app.models import MenuModel, ItemsModel
 from cuisine_app.serializer import MenuSerializer, ItemSerializer
 
 
@@ -69,7 +69,7 @@ class Cuisine_Menu(APIView):
             return Response({"message": e.args[0], "status": 400, "data": {}},
                             status=status.HTTP_400_BAD_REQUEST)
 
-    def delete(self, request, menu_id):
+    def delete(self, menu_id):
         logging.info("menu deleted")
 
         try:
@@ -83,11 +83,11 @@ class Cuisine_Menu(APIView):
             return Response({"message": e.args[0], "status": 400, "data": {}},
                             status=status.HTTP_400_BAD_REQUEST)
 
+
 class CuisineItems(APIView):
     def post(self, request):
         logging.info("menu added")
         try:
-            print(request.data)
             serializer = ItemSerializer(data=request.data)
             serializer.is_valid(raise_exception=True)
             serializer.save()
@@ -97,3 +97,16 @@ class CuisineItems(APIView):
             logging.exception(e)
             return Response({"message": e.args[0], "status": 400, "data": {}},
                             status=status.HTTP_400_BAD_REQUEST)
+
+    def get(self,request):
+        logging.info("menu added")
+        try:
+            item_data = ItemsModel.objects.all()
+            serializer = ItemSerializer(item_data, many=True)
+            return Response({"message": "item list retrieved", "status": 200, "data": serializer.data},
+                            status=status.HTTP_200_OK)
+        except Exception as e:
+            logging.exception(e)
+            return Response({"message": e.args[0], "status": 400, "data": {}},
+                            status=status.HTTP_400_BAD_REQUEST)
+
